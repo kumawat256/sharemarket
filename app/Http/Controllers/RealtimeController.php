@@ -56,75 +56,58 @@ class RealtimeController extends Controller
         $data = json_decode($response,true); 
         // echo "<pre>"; print_r($data); die;
         $formattedStrikePrice = number_format((float)$strike, 6, '.', '');
-
+        
         $oc = $data['data']['oc'];
+        // echo "<pre>";print_r($oc);die;
         $keys = array_keys($oc);
         $index = array_search($formattedStrikePrice, $keys);
-
+        
         if ($index !== false) {
             // Current index
             $currentKey = $keys[$index];
             $currentCEValue = $oc[$currentKey]['ce']['oi'];
+            $currentCELastPrice = $oc[$currentKey]['ce']['last_price'];
             $currentPEValue = $oc[$currentKey]['pe']['oi'];
+            $currentPELastPrice = $oc[$currentKey]['pe']['last_price'];
             $totalAtm = $currentCEValue+$currentPEValue;
-            echo "Current Strike Price CE Value ".$currentCEValue;
-            echo "<br>";
-            echo "Current Strike Price PE Value ".$currentPEValue;
-            echo "<br>";
-            // Previous index
+
+            
+            //previous index
             $previousKey = $keys[$index - 1] ?? null;
             $previousCEValue = $previousKey ? $oc[$previousKey]['ce']['oi'] : null;
+            $previousCELastPrice = $previousKey ? $oc[$previousKey]['ce']['last_price'] : null;
             $previousPEValue = $previousKey ? $oc[$previousKey]['pe']['oi'] : null;
-        
+            $previousPELastPrice = $previousKey ? $oc[$previousKey]['pe']['last_price'] : null;
+            
             // Previous 2 index
             $previousKey2 = $keys[$index - 2] ?? null;
             $previousCEValue2 = $previousKey2 ? $oc[$previousKey2]['ce']['oi'] : null;
+            $previousCELastPrice2 = $previousKey2 ? $oc[$previousKey2]['ce']['last_price'] : null;
             $previousPEValue2 = $previousKey2 ? $oc[$previousKey2]['pe']['oi'] : null;
-        
+            $previousPELastPrice2 = $previousKey2 ? $oc[$previousKey2]['pe']['last_price'] : null;
+            
             // Next index
             $nextKey = $keys[$index + 1] ?? null;
             $nextCEValue = $nextKey ? $oc[$nextKey]['ce']['oi'] : null;
+            $nextCELastPrice = $nextKey ? $oc[$nextKey]['ce']['last_price'] : null;
             $nextPEValue = $nextKey ? $oc[$nextKey]['pe']['oi'] : null;
-        
+            $nextPELastPrice = $nextKey ? $oc[$nextKey]['pe']['last_price'] : null;
+            
             // Next 2 index
             $nextKey2 = $keys[$index + 2] ?? null;
             $nextCEValue2 = $nextKey2 ? $oc[$nextKey2]['ce']['oi'] : null;
+            $nextCELastPrice2 = $nextKey2 ? $oc[$nextKey2]['ce']['last_price'] : null;
             $nextPEValue2 = $nextKey2 ? $oc[$nextKey2]['pe']['oi'] : null;
+            $nextPELastPrice2 = $nextKey2 ? $oc[$nextKey2]['pe']['last_price'] : null;
         
-            // Output the results
 
-            $withOutATMCE = $previousCEValue+$previousCEValue2+$nextCEValue+$nextCEValue2;
-            $withOutATMPE = $previousPEValue+$previousPEValue2+$nextPEValue+$nextPEValue2;
+            // $withOutATMCE = $previousCEValue+$previousCEValue2+$nextCEValue+$nextCEValue2;
+            // $withOutATMPE = $previousPEValue+$previousPEValue2+$nextPEValue+$nextPEValue2;
 
-            $totalCEValue = $currentCEValue+$previousCEValue+$previousCEValue2+$nextCEValue+$nextCEValue2;
-            $totalPEValue = $currentPEValue+$previousPEValue+$previousPEValue2+$nextPEValue+$nextPEValue2;
+            // $totalCEValue = $currentCEValue+$previousCEValue+$previousCEValue2+$nextCEValue+$nextCEValue2;
+            // $totalPEValue = $currentPEValue+$previousPEValue+$previousPEValue2+$nextPEValue+$nextPEValue2;
             
-            echo "Without ATM CE Value ".$withOutATMCE;
-            echo "<br>";
-            echo "Without ATM PE Value ".$withOutATMPE;
-            echo "<br>";
-            echo " Total Without ATM Value ".$withOutATMPE + $withOutATMCE ;
-            echo "<br>";
-            echo "CE value ".$totalCEValue;
-            echo "<br>";
-            echo "PE value ".$totalPEValue;
-            echo "<br>";
-            echo "Total ATM ".$totalAtm;
-            echo "<br>";
-            echo "<b>Total Overall Value " . $totalCEValue + $totalPEValue. "</b>"; 
-            echo "<br>";
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>COI IMBALACE </b>";
-            echo "<br>";
-
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUT";
-            echo "<br>";
-            echo "ATM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".round(($currentCEValue*100)/$totalAtm,2) ."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".round(($currentPEValue*100)/$totalAtm,2); 
-            echo "<br>";
-            echo "OVERALL ".round(($withOutATMCE*100)/($withOutATMPE + $withOutATMCE),2). "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".round(($withOutATMPE*100)/($withOutATMPE + $withOutATMCE),2);
-
-            
-          
-
+            return view('welcome',compact('currentKey','previousKey','previousKey2','nextKey','nextKey2','currentCEValue','currentCELastPrice','currentPEValue','currentPELastPrice','previousCEValue','previousCELastPrice','previousPEValue','previousPELastPrice','previousCEValue2','previousCELastPrice2','previousPEValue2','previousPELastPrice2','nextCEValue','nextCELastPrice','nextPEValue','nextPELastPrice','nextCEValue2','nextCELastPrice2','nextPEValue2','nextPELastPrice2'));
            
         } else {
             echo "No match found for $formattedStrikePrice.\n";
