@@ -8,6 +8,7 @@ use App\Events\DataReceived;
 Route::get('/realtime', [RealtimeController::class, 'index']);
 Route::get('/dashboard', [RealtimeController::class, 'dashboard'])->name('dashboard_view');
 Route::post('/dashboard', [RealtimeController::class, 'getOIData'])->name('get_oi_data');
+Route::post('/get-expiry', [RealtimeController::class, 'getExpiry'])->name('getExpiry');
 // Route::get('/broadcast', function () {
 //     event(new DataReceived('Test Message'));
 // });

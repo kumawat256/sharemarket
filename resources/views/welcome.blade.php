@@ -29,53 +29,77 @@
         <table class="table table-bordered text-center">
             <thead class="table-dark">
                 <tr>
-                    <th colspan="2" class="call-header">CALL</th>
+                    <th colspan="4" class="call-header">CALL</th>
                     <th class="blank-header"></th>
-                    <th colspan="2" class="put-header">PUT</th>
+                    <th colspan="4" class="put-header">PUT</th>
                 </tr>
                 <tr>
                     <th>LTP</th>
+                    <th>OI</th>
                     <th>COI</th>
+                    <th>% CHANGE</th>
                     <th>STRIKE PRICE</th>
-                    <th>LTP</th>
+                    <th>% CHANGE</th>
                     <th>COI</th>
+                    <th>OI</th>
+                    <th>LTP</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{$previousCELastPrice2}}</td>
                     <td>{{$previousCEValue2}}</td>
+                    <td>{{$previousCEValue2 - $previousCEPreviousOI2}}</td>
+                    <td>{{round(($previousCEValue2 - $previousCEPreviousOI2)/($previousCEPreviousOI2)*100,2)}}</td>
                     <td>{{round($previousKey2)}}</td>
-                    <td>{{$previousPELastPrice2}}</td>
+                    <td>{{round(($previousPEValue2 - $previousPEPreviousOI2)/($previousPEPreviousOI2)*100,2)}}</td>
+                    <td>{{$previousPEValue2 - $previousPEPreviousOI2}}</td>
                     <td>{{$previousPEValue2}}</td>
+                    <td>{{$previousPELastPrice2}}</td>
                 </tr>
                 <tr>
                     <td>{{$previousCELastPrice}}</td>
                     <td>{{$previousCEValue}}</td>
+                    <td>{{$previousCEValue - $previousCEPreviousOI}}</td>
+                    <td>{{round(($previousCEValue - $previousCEPreviousOI)/($previousCEPreviousOI)*100,2)}}</td>
                     <td>{{round($previousKey)}}</td>
-                    <td>{{$previousPELastPrice}}</td>
+                    <td>{{round(($previousPEValue - $previousPEPreviousOI)/($previousPEPreviousOI)*100,2)}}</td>
+                    <td>{{$previousPEValue - $previousPEPreviousOI}}</td>
                     <td>{{$previousPEValue}}</td>
+                    <td>{{$previousPELastPrice}}</td>
                 </tr>
                 <tr>
                     <td>{{$currentCELastPrice}}</td>
                     <td>{{$currentCEValue}}</td>
+                    <td>{{$currentCEValue - $currentCEPreviousOI}}</td>
+                    <td>{{round(($currentCEValue - $currentCEPreviousOI)/($currentCEPreviousOI)*100,2)}}</td>
                     <td>{{round($currentKey)}}</td>
-                    <td>{{$currentPELastPrice}}</td>
+                    <td>{{round(($currentPEValue - $currentPEPreviousOI)/($currentPEPreviousOI)*100,2)}}</td>
+                    <td>{{$currentPEValue - $currentPEPreviousOI}}</td>
                     <td>{{$currentPEValue}}</td>
+                    <td>{{$currentPELastPrice}}</td>
                 </tr>
                 <tr>
                     <td>{{$nextCELastPrice}}</td>
                     <td>{{$nextCEValue}}</td>
+                    <td>{{$nextCEValue - $nextCEPreviousOI}}</td>
+                    <td>{{round(($nextCEValue - $nextCEPreviousOI)/($nextCEPreviousOI)*100,2)}}</td>
                     <td>{{round($nextKey)}}</td>
-                    <td>{{$nextPELastPrice}}</td>
+                    <td>{{round(($nextPEValue - $nextPEPreviousOI)/($nextPEPreviousOI)*100,2)}}</td>
+                    <td>{{$nextPEValue - $nextPEPreviousOI}}</td>
                     <td>{{$nextPEValue}}</td>
+                    <td>{{$nextPELastPrice}}</td>
                 </tr>
                 <tr>
-                    <td>{{$nextCELastPrice2}}</td>
+                     <td>{{$nextCELastPrice2}}</td>
                     <td>{{$nextCEValue2}}</td>
+                    <td>{{$nextCEValue2 - $nextCEPreviousOI2}}</td>
+                    <td>{{round(($nextCEValue2 - $nextCEPreviousOI2)/($nextCEPreviousOI2)*100,2)}}</td>
                     <td>{{round($nextKey2)}}</td>
-                    <td>{{$nextPELastPrice2}}</td>
+                    <td>{{round(($nextPEValue2 - $nextPEPreviousOI2)/($nextPEPreviousOI2)*100,2)}}</td>
+                    <td>{{$nextPEValue2 - $nextPEPreviousOI2}}</td>
                     <td>{{$nextPEValue2}}</td>
+                    <td>{{$nextPELastPrice2}}</td>
                 </tr>
             </tbody>
         </table>
@@ -113,18 +137,20 @@
             </tr>
         </table>
 
-        <h3 class="mt-4">COI Imbalance</h3>
+        <h3 class="mt-4">COI IMBalance</h3>
         <table class="table table-bordered text-center">
             <tr>
-                <td>CALL</td>
-                <td>39.51456</td>
-                <td>PUT</td>
-                <td>60.4854453</td>
+                <td>CALL ATM</td>
+                <td>{{round((($currentCEValue - $currentCEPreviousOI)*100)/(($currentCEValue - $currentCEPreviousOI)+($currentPEValue - $currentPEPreviousOI)),2)}}</td>
+                <td>PUT ATM</td>
+                <td>{{round((($currentPEValue - $currentPEPreviousOI)*100)/(($currentCEValue - $currentCEPreviousOI)+($currentPEValue - $currentPEPreviousOI)),2)}}</td>
             </tr>
             <tr>
-                <td>OVERALL</td>
-                <td>46.04772</td>
-                <td>53.9522877</td>
+                
+                <td>CALL ITM</td>
+                <td>{{round(((($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2)) * 100) / (($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2) + (($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI) + ($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2))),2)}}</td>
+                <td>PUT ITM</td>
+                <td>{{round(((($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI)+($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2)) * 100) / (($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2) + (($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI) + ($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2))),2)}}</td>
             </tr>
         </table>
 
@@ -132,11 +158,11 @@
         <table class="table table-bordered text-center">
             <tr>
                 <td>ATM</td>
-                <td>20.97089</td>
+                <td>{{round((($currentCEValue - $currentCEPreviousOI)*100)/(($currentCEValue - $currentCEPreviousOI)+($currentPEValue - $currentPEPreviousOI)),2) - round((($currentPEValue - $currentPEPreviousOI)*100)/(($currentCEValue - $currentCEPreviousOI)+($currentPEValue - $currentPEPreviousOI)),2)}}</td>
             </tr>
             <tr>
-                <td>Overall</td>
-                <td>7.904566</td>
+                <td>ITM</td>
+                <td>{{abs(abs(round(((($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2)) * 100) / (($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2) + (($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI) + ($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2))),2)) - abs(round(((($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI)+($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2)) * 100) / (($nextCEValue2 - $nextCEPreviousOI2)+($nextCEValue - $nextCEPreviousOI)+($previousCEValue - $previousCEPreviousOI)+($previousCEValue2 - $previousCEPreviousOI2) + (($nextPEValue2 - $nextPEPreviousOI2)+($nextPEValue - $nextPEPreviousOI) + ($previousPEValue - $previousPEPreviousOI)+($previousPEValue2 - $previousPEPreviousOI2))),2)))}}</td>
             </tr>
         </table>
     </div>
