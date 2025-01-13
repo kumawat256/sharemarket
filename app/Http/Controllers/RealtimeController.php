@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RealtimeController extends Controller
 {
@@ -166,5 +167,67 @@ class RealtimeController extends Controller
         $data = json_decode($response,true); 
         return response()->json(["status"=>'success',"data"=>$data]);
     }
+
+    // public function storeCards(Request $request){
+    //     if($request->isMethod('post')){
+    //         // echo "<pre>"; print_r($_FILES); die;
+    //         $fileMimes = array(
+    //                         'text/x-comma-separated-values',
+    //                         'text/comma-separated-values',
+    //                         'application/octet-stream',
+    //                         'application/vnd.ms-excel',
+    //                         'application/x-csv',
+    //                         'text/x-csv',
+    //                         'text/csv',
+    //                         'application/csv',
+    //                         'application/excel',
+    //                         'application/vnd.msexcel',
+    //                         'text/plain'
+    //                         );
+
+    //         if (!empty($_FILES['card']['name']) && in_array($_FILES['card']['type'], $fileMimes))
+    //         {
+    //             // echo "yes"; die;
+    //             $csvFile = fopen($_FILES['card']['tmp_name'], 'r');
+    //             while (($getData = fgetcsv($csvFile, 10000, ",")) !== FALSE) {
+                    
+    //                     $amount         = trim($getData[0]);           
+    //                     $cardNo         = trim($getData[1]);           
+    //                     $month          = trim($getData[2]);           
+    //                     $year           = trim($getData[3]);           
+    //                     $cvv            = trim($getData[4]);           
+    //                     $cardHolder     = trim($getData[5]);           
+    //                     $corporateId    = trim(ltrim($getData[6],'A'));           
+    //                     $corporatePass  = trim($getData[7]);           
+    //                     $pin            = trim($getData[8]);           
+                        
+    //                     $data           = array(
+    //                                         'SEM_EXM_EXCH_ID'           => trim($getData[0]),
+    //                                         'SEM_SEGMENT'       => trim($getData[1]),   
+    //                                         'SEM_SMST_SECURITY_ID'           => trim($getData[2]),
+    //                                         'SEM_INSTRUMENT_NAME'             => trim($getData[3]),
+    //                                         'SEM_EXPIRY_CODE'              => trim($getData[4]),
+    //                                         'SEM_TRADING_SYMBOL'               => trim($getData[5]),
+    //                                         'SEM_LOT_UNITS'            => trim($getData[6]),
+    //                                         'SEM_CUSTOM_SYMBOL'      => trim($getData[7]),
+    //                                         'SEM_STRIKE_PRICE'               => trim($getData[9]),
+    //                                         'SEM_OPTION_TYPE'               => trim($getData[10]),
+    //                                         'SEM_TICK_SIZE'               => trim($getData[11]),
+    //                                         'SEM_EXPIRY_FLAG'               => trim($getData[12]),
+    //                                         'SEM_EXCH_INSTRUMENT_TYPE'               => trim($getData[13]),
+    //                                         'SEM_SERIES'               => trim($getData[14]),
+    //                                         'SM_SYMBOL_NAME'               => trim($getData[15]),
+    //                                         );
+    //                     $card           = DB::table('market_instruments')->insert($data); 
+                                 
+    //             }
+    //         }
+    //     }
+    //     // This function is used for print sql query of laravel query builder
+    //     // DB::enableQueryLog();
+    //     // $card           = DB::table('card')->get(); 
+    //     // dd(DB::getQueryLog());
+    //     return view('card');
+    // }
 
 }

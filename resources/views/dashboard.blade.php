@@ -19,7 +19,8 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="options" class="form-label">Index Code:</label>
-                    <input type="text" name="index_code" id="index_code" class="form-control" required value="IDX_I">
+                    <input type="text" name="index_code" id="index_code" class="form-control" required >
+                    <ul id="resultList"></ul>
                     {{-- <select class="form-control" id="options" name="index_name">
                         <option value="">Select an option</option>
                         <option value="nifty">Nifty</option>
@@ -65,6 +66,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function(){
+
+            $('#index_code').on('input', function() {
+                let query = $(this).val();
+
+                if (query.length > 2) { // Start searching only after 3+ characters
+                    $.ajax({
+                        url: "{{ route('get_market_index_and_stocks') }}",
+                        method: 'GET',
+                        data: { query: query },
+                        success: function(data) {
+                            $('#resultList').empty(); // Clear previous results
+                            if (data.length > 0) {
+                                $.each(data, function(index, value) {
+                                    $('#resultList').append('<li>' + value.SEM_TRADING_SYMBOL + ' - ' + value.SM_SYMBOL_NAME + '</li>');
+                                });
+                            } else {
+                                $('#resultList').append('<li>No results found</li>');
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    $('#resultList').empty(); // Clear results if input is less than 3 characters
+                }
+            });
+
+            
             $(document).on('change',"#index_no",function(){
                 
                 var index_no = $(this).val();
