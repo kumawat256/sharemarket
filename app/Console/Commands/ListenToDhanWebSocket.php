@@ -19,7 +19,7 @@ class ListenToDhanWebSocket extends Command
         $loop = Loop::get();
         $connector = new Connector($loop);
         $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzM4MDQ5OTE5LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTE5MzI2NSJ9.I-8S0LPd-1CQ7D8iKSyBZ2XF9SeC9HkLqJhsbihL7VP4-PTtv2bkF-wZmtNc27Z5uz-xWIxG0nySvnpbUZ5AAQ";
-        $clientID = "1101193265";
+        $clientID = "update your clinet id";
         $websocketUrl = "wss://api-feed.dhan.co?version=2&token=".$token."&clientId=".$clientID."&authType=2";
         // $websocketUrl = "wss://ws.pusherapp.com";
 
